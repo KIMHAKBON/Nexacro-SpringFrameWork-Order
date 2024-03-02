@@ -1,0 +1,84 @@
+﻿{
+    "version" : "21.0.0.1",
+    "runtime" :
+    {
+        "target" :
+        {
+            "os" : "windows"
+        },
+        "framework" :
+        [    
+        "./nexacrolib/framework/Framework.js"
+        ],
+        "component" :
+        [    
+        "./nexacrolib/component/CompBase.js",
+        "./nexacrolib/component/ComComp.js",
+        "./nexacrolib/component/Grid.js",
+        "./nexacrolib/component/ListView.js",
+        "./nexacrolib/component/DeviceAPI.js"
+        ],
+        "environment" :
+        [    
+        {
+        "file":"./environment.xml.js"
+        }
+        ],
+        "screen" :
+        [    
+        {"id":"Desktop_screen","type":"desktop","themeid":"theme::blue"}
+        ],
+        "xadl" :
+        [
+        {
+        	"screenid":"Desktop_screen",
+        	"launch":"./Application_Desktop.xadl.js",
+        	"quickview":"./Application_Desktop.xadl.quickview.js",
+        	"form":[
+        				"./Base/traceLog.xfdl.js"
+        	]
+        }
+        ],  
+        "protocol" :
+        {
+            "adaptors" :
+            []
+        },
+        "resource" :
+        {
+            "windows" : {
+                "updateurl" : "",
+                "updatetype" : "local"
+            }
+        },
+		"deploy" :
+        {
+            "windows" : {
+                "updateurl" : "",
+            "windows 10" : {
+                "updateurl" : "",
+                "enginesetupkey" : "{3D10EE09-348B-4B0B-AD04-69A3CE921D1C}",
+                    "resources" :
+                    [{"type" : "Engine", "file" : "NexacroN_SetupRuntime_x86.exe", "targetpath" : "./", "version" : "21.0.0.100"}]
+                },
+            "windows 8 / 8.1, windows 7, windows vista, windows server 2003, windows server 2008, windows server 2012, windows server 2016" : {
+                "updateurl" : "",
+                "enginesetupkey" : "{3D10EE09-348B-4B0B-AD04-69A3CE921D1C}",
+                    "resources" :
+                    [{"type" : "Engine", "file" : "NexacroN_SetupRuntime_x86.exe", "targetpath" : "./", "version" : "21.0.0.100"}]
+                },
+            "common" : {
+                "updateurl" : "",
+                    "resources" :
+                    [{"type" : "Module", "file" : "nexacrolib.zip", "targetpath" : "./", "version" : "0"},
+                    {"type" : "File", "file" : "Archive00.xzip", "targetpath" : "./", "version" : "0"},
+                    {"type" : "Resource", "file" : "Resource.zip", "targetpath" : "./", "version" : "0"}]
+                }
+            }
+        },
+        "userfont" :
+        [
+
+        ]
+    }
+}

@@ -1,0 +1,72 @@
+﻿{
+    "version" : "21.0.0.1",
+    "runtime" :
+    {
+        "target" :
+        {
+            "os" : "windows"
+        },
+        "framework" :
+        [    
+        "./nexacrolib/framework/Framework.js"
+        ],
+        "component" :
+        [    
+        "./nexacrolib/component/CompBase.js",
+        "./nexacrolib/component/ComComp.js",
+        "./nexacrolib/component/Grid.js",
+        "./nexacrolib/component/DeviceAPI.js",
+        "./nexacrolib/component/extPrototype/Frame.js",
+        "./nexacrolib/component/extPrototype/Util.js",
+        "./nexacrolib/component/extPrototype/Transaction.js",
+        "./nexacrolib/component/extPrototype/Popup.js",
+        "./nexacrolib/component/extPrototype/File.js",
+        "./nexacrolib/component/extPrototype/Message.js",
+        "./nexacrolib/component/extPrototype/Excel.js",
+        "./nexacrolib/component/ListView.js",
+        "./nexacrolib/component/traceLog/traceLog.js"
+        ],
+        "environment" :
+        [    
+        {
+        "file":"./environment.xml.js"
+        }
+        ],
+        "screen" :
+        [    
+        {"id":"Screen_D","type":"desktop","filesecurelevel":"all","networksecurelevel":"all","httpretry":"0","themeid":"theme::default"}
+        ],
+        "xadl" :
+        [
+        {
+        	"screenid":"Screen_D",
+        	"launch":"./packageN.xadl.js",
+        	"quickview":"./packageN.xadl.quickview.js",
+        	"form":[
+        				"./frame/frameTop.xfdl.js",
+        		"./frame/frameLeft.xfdl.js",
+        		"./frame/frameMDI.xfdl.js",
+        		"./frame/frameMain.xfdl.js",
+        		"./frame/frameBottom.xfdl.js"
+        	]
+        }
+        ],  
+        "protocol" :
+        {
+            "adaptors" :
+            []
+        },
+        "resource" :
+        {
+
+        },
+		"deploy" :
+        {
+
+        },
+        "userfont" :
+        [
+
+        ]
+    }
+}

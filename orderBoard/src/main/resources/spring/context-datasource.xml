@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:jee="http://www.springframework.org/schema/jee"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd"> 
+    
+    <bean id="dataSourceSpied" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+     	<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+     	<property name="url" value="jdbc:oracle:thin:@localhost:1521:orcl3" />
+     	<property name="username" value="MAN"/>
+     	<property name="password" value="Man!234"/>
+	</bean>
+	<bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+		<constructor-arg ref="dataSourceSpied"/>
+		<property name = "logFormatter">
+			<bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+				<property name="loggingType" value="MULTI_LINE"/>
+				<property name="sqlPrefix" value="SQL:::"/>
+			</bean>
+		</property>
+	</bean>
+    
+    <!-- 
+       - DataSource  
+       		- 둘 이상의 데이터소스를 사용해야 하는 경우 해당 데이터소스를 별도의 이름으로 정의하여
+       		해당 데이터소스를 사용하는 SqlMapClient 혹은 SqlSession에 데이터소스를 지정해서 사용해야 한다. 
+     -->
+    <!-- hsql 메모리 DBMS :  JDBC -->
+    <!-- <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+        <property name="driverClassName" value="net.sf.log4jdbc.DriverSpy"/>
+        <property name="jdbcUrl"         value="jdbc:log4jdbc:hsqldb:mem:sampledb"/>
+        <property name="username"        value="sa"/>
+    </bean> -->
+    <!-- EDB  DBMS :  JDBC 
+    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+        <property name="driverClassName" value="com.edb.Driver"/>
+        <property name="jdbcUrl"         value="jdbc:edb:localhost:7890:sampledb"/>
+        <property name="username"        value="enterprisedb"/>
+        <property name="password"        value="enterprisedb"/>
+    </bean>
+    -->
+</beans>

@@ -1,0 +1,48 @@
+﻿{
+	"SetupManager" : {
+		"updatetype" : "local",
+		"outputpath" : "D:\\nexacroN\\project\\traceLog\\deploy\\traceLog\\_windows_",
+		"externalsetupresource" : "False",
+		"resourcepath" : "D:\\nexacroN\\project\\traceLog\\deploy\\traceLog\\_windows_",
+		"bootstrapjson" : "http://./start.json",
+		"programname" : "traceLog",
+		"installlocation" : "TOBESOFT\\Nexacro N\\traceLog\\",
+		"updatebrowser" : "true",
+		"applicationkey" : "traceLog",
+		"installmode" : "Default",
+		"autoupdate" : "Auto",
+		"shortcutinstalltype" : "No Use",
+		"splashshowmessage" : "Default",
+		"Windows_x86" : {
+			"setupfilename" : "NexacroN_SetupRuntime_x86",
+			"enginesetupkey" : "{3D10EE09-348B-4B0B-AD04-69A3CE921D1C}",
+			"setupversion" : "21.0.0.100",
+			"originalfile" : "C:\\Program Files (x86)\\TOBESOFT\\Nexacro N\\SDK\\21.0.0\\SetupRuntime\\NexacroN_SetupRuntime_x86.exe",
+			"SetupRuntime_x86" : "True"
+		},
+		"Windows_x64" : {
+			"SetupRuntime_x64" : "False"
+		},
+		"Windows_XP" : {
+			"SetupRuntime_XP" : "False"
+		}
+	},
+	"AppBuilderManager" : {
+		"savelogininfo" : "False",
+		"keeplogin" : "True",
+		"setupruntime_version" : "21.0.0.100",
+		"merge" : "false",
+		"compress" : "false",
+		"merge" : "false",
+		"compress" : "false",
+		"baselib" : [
+			"./nexacrolib/framework/Framework.json",
+			"./nexacrolib/resources/Resource.json",
+			"./nexacrolib/component/CompBase.json",
+			"./nexacrolib/component/ComComp.json",
+			"./nexacrolib/component/Grid.json",
+			"./nexacrolib/component/ListView.json",
+			"./nexacrolib/component/DeviceAPI.json"
+		]
+	}
+}

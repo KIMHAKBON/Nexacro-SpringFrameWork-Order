@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nexacro.orderBoard.mapper.UiadapterBoardMapper">
+	
+    <!--  POJO -->
+    
+    <delete id="deleteOrdList" parameterType="java.util.Map">
+    	/*deleteOrdList_주문삭제*/
+    	DELETE FROM TB_ORD
+		WHERE 1=1
+		AND ORD_NO = #{ORD_NO}
+    </delete>
+    
+    <update id="updateOrdList" parameterType="java.util.Map">
+    	/*updateOrdList_주문수정*/
+    	
+    	UPDATE TB_ORD
+    		SET ORD_STAT_CD = #{ORD_STAT_CD}
+    			, ITEM_CD = #{ITEM_CD}
+    		WHERE 1=1
+    		AND ORD_NO = #{ORD_NO}
+    </update>
+    
+    <insert id="insertCust" parameterType="java.util.Map">
+    	/* insertCust_고객등록 */
+    	
+    	INSERT INTO TB_CUST(
+    		CUST_CD
+    		, CUST_GBCD
+    		, CUST_NM
+    		, PHONE
+    		, BIRTHBISNO
+    		, ADDR
+    		, REG_DT
+    		, UPD_DT
+    	)VALUES(
+    		CUST_SEQ.NEXTVAL
+    		, #{CUST_GBCD}
+    		, #{CUST_NM}
+    		, #{PHONE}
+    		, #{BIR_BIZ_NO}
+    		, #{ADDR}
+    		, SYSDATE
+    		, SYSDATE
+    	)	
+    </insert>
+    
+    <select id="checkCustDup" parameterType="java.util.Map" resultType="String">
+    	SELECT CUST_CD
+    	FROM TB_CUST
+    	WHERE 1=1
+    	AND CUST_GBCD = #{CUST_GBCD}
+    	AND CUST_NM = #{CUST_NM}
+    	AND PHONE = #{PHONE}
+    	AND BIRTHBISNO = #{BIR_BIZ_NO}
+    	AND ADDR = #{ADDR}
+    </select>
+    
+    <insert id="insertOrdList" parameterType="java.util.Map">
+    	/* insertOrdList_주문등록 */
+    	
+    	INSERT INTO TB_ORD(
+    		ORD_NO
+    		, ITEM_CD
+    		, CUST_CD
+    		, ORD_STAT_CD
+    		, REG_DT
+    		, UPD_DT
+    	)VALUES(
+    		TO_CHAR(SYSDATE, 'YYYYMMDD') || LPAD(ORDER_SEQ.NEXTVAL, 4 ,'0')
+    		, #{ITEM_CD}
+    		, #{CUST_CD}
+    		, 'A' /*최초 주문등록 시에는 주문대기 상태로 지정*/
+    		, SYSDATE
+    		, SYSDATE
+    	)	
+    </insert>
+    
+    <select id="selectItemList" resultType="java.util.Map">
+    	SELECT 
+		ITEM_CD 			AS CD_VAL1
+		,ITEM_NM 			AS CD_NM1
+		FROM TB_ITEM
+    </select>
+    
+    <select id="selectOrdList" parameterType="java.util.Map" resultType="java.util.Map">
+    /* 
+     *	TB_ORD 테이블에 있는 데이터는 다 나오고
+	 * TB_CUST 테이블에 CUST_CD가 매칭을 하고
+	 * 존재하지 않는 데이터는 NULL로 나올 것이다.
+	 * 
+	*/
+		SELECT 
+		ORD.ORD_NO 
+		, FN_CODE_NM('001', ORD.ORD_STAT_CD)        AS ORD_STAT_NM
+		, ORD.CUST_CD 								AS CUST_NO
+		, CUST.CUST_NM 								
+		, FN_CODE_NM('002', CUST.CUST_GBCD) 		AS CUST_GBCD_NM
+		, CUST.PHONE 
+		, CUST.ADDR
+		, ITEM.ITEM_NM 
+		, ORD.REG_DT 
+		FROM TB_ORD ORD
+		LEFT OUTER JOIN TB_CUST CUST ON ORD.CUST_CD = CUST.CUST_CD 
+		LEFT OUTER JOIN TB_ITEM ITEM ON ORD.ITEM_CD  = ITEM.ITEM_CD 
+		WHERE 1=1
+			<if test="ORD_NO != null and ORD_NO != ''">
+				AND ORD.ORD_NO = #{ORD_NO}
+			</if>
+			<if test="CUST_NM != null and CUST_NM != ''">
+				AND CUST.CUST_NM = #{CUST_NM}
+			</if>
+			<if test="COMP_YN == 'true'">
+				AND CUST.CUST_GBCD = 'C'
+			</if>
+			<if test="ORD_STAT_CD != null and ORD_STAT_CD != ''">
+				AND ORD.ORD_STAT_CD = #{ORD_STAT_CD}
+			</if>
+			<if test="CUST_GB_CD != null and CUST_GB_CD != ''">
+				AND CUST.CUST_GBCD = #{CUST_GBCD}
+			</if>
+		
+		
+		
+
+	/*
+	* SELECT 
+	*
+	FROM TB_ORD
+	WHERE 1=1
+	
+	SELECT
+	*
+	FROM TB_CUST
+	WHERE 1=1
+	
+	SELECT 
+	*
+	FROM TB_ITEM
+	WHERE 1=1
+	 */ 
+    </select>
+    
+    <select id="selectCommonCode" parameterType="java.util.Map" resultType="java.util.Map">
+    	SELECT 
+		CD_VAL1 ,
+		CD_NM1 
+		FROM TB_CD_MST
+		WHERE 1=1
+		AND CD_VAL = #{CD_VAL}
+    </select>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+     <select id="retrieve_datalist" parameterType="com.nexacro.orderBoard.object.Board" resultType="com.nexacro.orderBoard.object.Board">
+            select title 
+                 , regId 
+                 , regDate 
+                 , postId 
+                 , contents 
+                 , communityId
+                 , hitCount
+             from tbl_board
+             where 1=1
+            <if test="title != null">
+                and title like '%' || #{title} || '%'
+            </if>
+    </select>
+    
+    <insert id="insert_board" parameterType="com.nexacro.orderBoard.object.Board">
+            insert into tbl_board(title, regId, contents, communityId) values (#{title}, #{regId}, #{contents}, #{communityId} )
+    </insert>
+    
+      <update id="update_board" parameterType="com.nexacro.orderBoard.object.Board">
+            update tbl_board 
+               set title       = #{title}
+                 , regId       = #{regId}
+                 , contents    = #{contents}
+                 , communityId = #{communityId}
+            where postId=#{postId}
+    </update>
+    
+    <delete id="delete_board" parameterType="com.nexacro.orderBoard.object.Board">
+            delete from tbl_board where postId = #{postId}
+    </delete>
+    
+    <!--  MAP -->
+    <select id="retrieve_datalist_map" parameterType="java.util.Map" resultType="java.util.Map">
+            select title 
+                 , regId 
+                 , regDate 
+                 , postId 
+                 , contents 
+                 , communityId
+                 , hitCount
+             from tbl_board
+            where 1=1
+            <if test="title != null">
+                and title like '%' || #{title} || '%'
+            </if>
+    </select>
+    
+    <insert id="insert_board_map" parameterType="java.util.Map">
+            insert into tbl_board (title, regId, contents,communityId) values (#{title}, #{regId}, #{contents}, #{communityId} )
+    </insert>
+    
+      <update id="update_board_map" parameterType="java.util.Map">
+            update tbl_board 
+               set title       = #{title}
+                 , regId       = #{regId}
+                 , contents    = #{contents}
+                 , communityId = #{communityId}
+             where postId=#{postId}
+    </update>
+    
+    <delete id="delete_board_map" parameterType="java.util.Map">
+            delete from tbl_board where postId=#{postId}
+    </delete>
+    
+    
+    <select id="selectUserCount"  resultType="Integer">
+            SELECT COUNT(*)
+              FROM TB_USER
+    </select>
+</mapper>

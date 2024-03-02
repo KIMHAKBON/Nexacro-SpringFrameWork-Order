@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <GenInfo version="1.1">
+    <Rule>
+      <ENV rule_version="1.05"/>
+      <ADL rule_version="1.14"/>
+      <FDL rule_version="1.04"/>
+      <XCSS rule_version="1.04"/>
+      <Script rule_version="1.02"/>
+    </Rule>
+    <Info project="C:\Dev\eclipse-workspace\orderBoard\src\main\nxui\packageN\" generated="C:\Dev\eclipse-workspace\orderBoard\src\main\webapp\packageN\">
+      <File url="environment.xml" checksum="20240120173623" errormsg=""/>
+      <File url="typedefinition.xml" checksum="20240122194225" errormsg=""/>
+      <File url="appvariables.xml" checksum="20240120173623" errormsg=""/>
+      <File url="_resource_\_theme_\default\theme.xcss" checksum="20240120173627" errormsg=""/>
+      <File url="nexacrolib\framework\Framework.json" checksum="20240120173627" errormsg=""/>
+      <File url="nexacrolib\resources\Resource.json" checksum="20240120173627" errormsg=""/>
+      <File url="nexacrolib\component\CompBase.json" checksum="20240120173626" errormsg=""/>
+      <File url="nexacrolib\component\ComComp.json" checksum="20240120173626" errormsg=""/>
+      <File url="nexacrolib\component\Grid.json" checksum="20240120173627" errormsg=""/>
+      <File url="nexacrolib\component\DeviceAPI.json" checksum="20240120173626" errormsg=""/>
+      <File url="nexacrolib\component\extPrototype.json" checksum="20240120173627" errormsg=""/>
+      <File url="nexacrolib\component\ListView.json" checksum="20240120173627" errormsg=""/>
+      <File url="nexacrolib\component\traceLog.json" checksum="20240120173627" errormsg=""/>
+      <File url="packageN.xadl" checksum="20240129194522" errormsg=""/>
+      <File url="lib\cmmInclude.xjs" checksum="20240120173623" errormsg=""/>
+      <File url="frame\frameBottom.xfdl" checksum="20240120173623" errormsg=""/>
+      <File url="frame\frameLeft.xfdl" checksum="20240120173623" errormsg=""/>
+      <File url="frame\frameLogin.xfdl" checksum="20221023004906" errormsg=""/>
+      <File url="frame\frameMain.xfdl" checksum="20240120173623" errormsg=""/>
+      <File url="frame\frameMDI.xfdl" checksum="20240120173623" errormsg=""/>
+      <File url="frame\frameTop.xfdl" checksum="20240120173623" errormsg=""/>
+      <File url="frame\frameWork.xfdl" checksum="20240120173623" errormsg=""/>
+      <File url="frame\frameWorkTitle.xfdl" checksum="20240120173623" errormsg=""/>
+      <File url="cmm\cmmAlert.xfdl" checksum="20240120173623" errormsg=""/>
+      <File url="cmm\cmmConfirm.xfdl" checksum="20240120173623" errormsg=""/>
+      <File url="sample\sampleCalendar.xfdl" checksum="20240120173627" errormsg=""/>
+      <File url="sample\sampleFileUpDownloadTrans.xfdl" checksum="20240120173627" errormsg=""/>
+      <File url="sample\sampleGrid.xfdl" checksum="20240120173627" errormsg=""/>
+      <File url="sample\sampleMessage.xfdl" checksum="20240120173627" errormsg=""/>
+      <File url="sample\samplePopup.xfdl" checksum="20240120173627" errormsg=""/>
+      <File url="sample\sampleScript.xfdl" checksum="20240120173627" errormsg=""/>
+      <File url="pattern\pattern01-transaction.xfdl" checksum="20240120173627" errormsg=""/>
+      <File url="pattern\pattern02-excel.xfdl" checksum="20240120173627" errormsg=""/>
+      <File url="pattern\pattern03-FileUpTransfer.xfdl" checksum="20240120173627" errormsg=""/>
+      <File url="board\OB_001.xfdl" checksum="20240130215902" errormsg=""/>
+      <File url="board\OB001_01.xfdl" checksum="20240123202221" errormsg=""/>
+      <File url="board\OB_001_01.xfdl" checksum="20240129204927" errormsg=""/>
+      <File url="board\OB_001_01_copy0.xfdl" checksum="20240123204148" errormsg=""/>
+      <File url="board\OB_001_02.xfdl" checksum="20240130212049" errormsg=""/>
+      <File url="frame\ddasdsad.xfdl" checksum="20240126221258" errormsg=""/>
+    </Info>
+  </GenInfo>
+</root>

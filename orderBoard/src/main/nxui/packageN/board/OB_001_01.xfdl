@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="OB_001_01" width="430" height="440" titletext="주문등록팝업" onload="OB_001_01_onload">
+    <Layouts>
+      <Layout height="440" width="430">
+        <Static id="sta01_02" taborder="0" text="고객명" left="54" top="25" width="79" height="31" textAlign="center"/>
+        <Edit id="edit_custNm" taborder="1" left="185" top="26" width="205" height="34" inputtype="normal"/>
+        <Static id="sta01_02_00" taborder="2" text="주소" left="47" top="180" width="79" height="31" textAlign="center"/>
+        <Edit id="edit_addr" taborder="3" left="184" top="181" width="205" height="34" inputtype="normal"/>
+        <Static id="sta01_02_01" taborder="4" text="휴대폰번호" left="52" top="75" width="79" height="31" textAlign="center"/>
+        <Edit id="edit_phone" taborder="5" left="184" top="76" width="205" height="34" inputtype="normal"/>
+        <Static id="sta01_02_02" taborder="6" text="생년월일(사업자번호)" left="47" top="127" width="119" height="31" textAlign="center"/>
+        <Edit id="edit_birBizNo" taborder="7" left="184" top="128" width="205" height="34" inputtype="normal"/>
+        <Static id="sta01_01" taborder="8" text="주문 상품" left="48" top="298" width="79" height="31" textAlign="center"/>
+        <Combo id="cbo_itemNm" taborder="9" text="선택" left="184" top="295" width="147" height="34" value="" index="-1" innerdataset="ds_itemCombo" codecolumn="CD_VAL1" datacolumn="CD_NM1" displaynulltext="선택"/>
+        <Static id="sta01_01_00" taborder="10" text="고객 구분" left="48" top="238" width="79" height="31" textAlign="center"/>
+        <Combo id="cbo_custGbNm" taborder="11" text="선택" left="184" top="235" width="147" height="34" value="" index="-1" innerdataset="ds_custGbCombo" codecolumn="CD_VAL1" datacolumn="CD_NM1" displaynulltext="선택"/>
+        <Button id="btn_regOrd" taborder="12" text="주문등록" left="77" top="360" width="138" height="60" onclick="btn_regOrd_onclick"/>
+        <Button id="btn_exit" taborder="13" text="닫기" left="234" top="359" width="138" height="60" onclick="btn_exit_onclick"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[
+this.OB_001_01_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	//alert("onload 함수 실행");
+	
+	//주문 등록을 위한 주문상태, 주문상품 콤보박스 초기화
+	
+	//01. 고객구분 콤보박스에 출력한 데이터들을 TB_CD_MST 테이블로부터 조회해오자.
+	//이 로직은 앞서 OB_001.xfdl onload에서 만든 경험이 있습니다. 이미 만들어온 로직 그대로 쓰면됩니다.
+	this.fn_setCustGbCbo();
+	
+	//2. 주문상품 리스트를 TB_ITEM 테이블로부터 조회하여 콤보박스 안의 데이터를 채워주자.
+	//방법은 위 TB_CD_MST 테이블을 조회해오는 방식과 유사하다.
+	this.fn_setItemCbo();
+};
+
+this.btn_regOrd_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	//alert("주문 등록 버튼 클릭");
+	//1. 주문등록을 위해 임력받은 6개의 값을 데이터셋에 담아 서버로 전송해야 한다.
+	// 따라서, 데이터셋을 만들고 사용자가 입력한 6개의 값을 담아주자.
+	this.ds_regOrd.clearData();
+	this.ds_regOrd.addRow();
+	this.ds_regOrd.setColumn(0, "CUST_NM", this.edit_custNm.value);
+	this.ds_regOrd.setColumn(0, "PHONE", this.edit_phone.value);
+	this.ds_regOrd.setColumn(0, "BIR_BIZ_NO", this.edit_birBizNo.value);
+	this.ds_regOrd.setColumn(0, "ADDR", this.edit_addr.value);
+	this.ds_regOrd.setColumn(0, "CUST_GBCD", this.cbo_custGbNm.value);
+	this.ds_regOrd.setColumn(0, "ITEM_CD", this.cbo_itemNm.value);
+	
+	trace(this.ds_regOrd.getColumn(0, "CUST_NM"));
+	trace(this.ds_regOrd.getColumn(0, "PHONE"));
+	trace(this.ds_regOrd.getColumn(0, "BIR_BIZ_NO"));
+	trace(this.ds_regOrd.getColumn(0, "ADDR"));
+	trace(this.ds_regOrd.getColumn(0, "CUST_GBCD"));
+	trace(this.ds_regOrd.getColumn(0, "ITEM_CD"));
+	
+	
+	//2. 세팅한 ds_regOrd 데이터셋을 서버로 전송해서 주문등록을 해보자.
+	var strSvcId = "insertOrdList";				
+	var strSVcUrl = "insertOrdList.do";			
+	var inData = "ds_regOrd=ds_regOrd";									
+	var outData = "";						//서버로부터 받을 값은 따로 없다.																		
+	var strAvg = "";								
+	var callBackFnc = "fnCallback";	
+	
+	this.gfnTransaction(
+							strSvcId
+							,strSVcUrl
+							,inData
+							,outData
+							,strAvg
+							,callBackFnc
+						);	
+};
+
+this.btn_exit_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	//alert("닫기 버튼 클릭");
+	this.close();
+};
+
+/******************************************************************************************************************************************
+*사용자 정의 함수
+******************************************************************************************************************************************/
+
+this.fn_setCustGbCbo = function(){
+	
+
+	//ds_searchCustGb 데이터셋을 생성하고 서버로 전달할 인자값을 추가해보자.
+	this.ds_searchCustGb.clearData(); 	//데이터셋을 초기화
+	this.ds_searchCustGb.addRow();		//데이터셋에 값을 세팅하기 위해 1줄의 Row룰 추가한 것이다.
+	this.ds_searchCustGb.setColumn(0, "CD_VAL", "002"); 		//추가된 0번째 Row의 CD_VAL 칼럼에 001이라는 값을 추가한 겁니다.
+	
+	//서버로 데이터를 전송한다.
+	//서버로 데이터를 전송하기 전 필요한 값들을 세팅한다.
+	var strSvcId = "selectCommonCode";				//넥사크로에서 트랜잭션을 구분하기 위한 id값, 이 값은 차후 fncallback 함수에서 쓰인다.
+	var strSVcUrl = "selectCommonCode.do";			//Java Controller에서 이 주소를 식별하여 요청을 처리한다.
+	var inData = "ds_search=ds_searchCustGb";		//서버로 전송할 데이터셋을 세팅 = 문자 기준으로 왼쪽이 서버, 오른쪽이 프론트 데이터셋이다.
+													//서버측(.java)에도 = 문자 기준 왼쪽 데이터셋명(ds_search)과 반드시 동일하여 명명해야 한다.
+	var outData = "ds_custGbCombo=ds_commonCode";	//서버로부터 전달받을 데이터셋을 세팅하는 것이다.
+													//inData와는 반대로 = 문자 기준으로 왼쪽이 프론트, 오른쪽이 서버 데이터셋이다.
+													//서버측(.java)에서도 = 문자 기준 오른쪽 데이터셋(ds_commonCode)과 반드시 동일한 이름을 써야한다.
+	var strAvg = "";								//데이터셋이 아닌 값을 보낼때 쓰는 필드지만 데이터셋을 쓰는 것으로 통일하자.
+	var callBackFnc = "fnCallback";					//프레임웍 사이클에 9번에 해당한다. 서버로부터 값을 받은 이후 이행해야할 작업코드
+													//fnCallback 함수에서 작성한다.
+	this.gfnTransaction(
+							strSvcId
+							,strSVcUrl
+							,inData
+							,outData
+							,strAvg
+							,callBackFnc
+						);	
+};
+
+this.fn_setItemCbo = function(){
+	
+
+	var strSvcId = "selectItemList";				
+	var strSVcUrl = "selectItemList.do";			
+	var inData = "";									//따로 서버로 전송할 데이터가 없음.												
+	var outData = "ds_itemCombo=ds_itemCombo";																							
+	var strAvg = "";								
+	var callBackFnc = "fnCallback";	
+	
+	this.gfnTransaction(
+							strSvcId
+							,strSVcUrl
+							,inData
+							,outData
+							,strAvg
+							,callBackFnc
+						);	
+};
+
+/******************************************************************************************************************************************
+* CallBack Function(서버수신 후 후처리 영역)
+******************************************************************************************************************************************/
+//fnCallback 함수는 임의로 정해주는 것이 아니라 gfnTransaction 함수와 일맥상통하는 기능이다!!! 연계된 기능이라고 보면된다!!!
+this.fnCallback = function(svcID, errorCode, errorMsg){
+	switch(svcID){
+		case "selectCommonCode" : 
+				trace("고객구분 콤보박스 세팅 완료");
+				break;
+		case "selectItemList" : 
+				trace("주문상품 콤보박스 세팅 완료");
+				break;
+		case "insertOrdList" :
+				alert("주문 등록 완료");
+				this.close();
+				break;
+	}
+};
+
+
+
+
+]]></Script>
+    <Objects>
+      <Dataset id="ds_searchCustGb">
+        <ColumnInfo>
+          <Column id="CD_VAL" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_custGbCombo">
+        <ColumnInfo>
+          <Column id="CD_VAL1" type="STRING" size="256"/>
+          <Column id="CD_NM1" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_itemCombo">
+        <ColumnInfo>
+          <Column id="CD_VAL1" type="STRING" size="256"/>
+          <Column id="CD_NM1" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_regOrd">
+        <ColumnInfo>
+          <Column id="CUST_NM" type="STRING" size="256"/>
+          <Column id="PHONE" type="STRING" size="256"/>
+          <Column id="BIR_BIZ_NO" type="STRING" size="256"/>
+          <Column id="ADDR" type="STRING" size="256"/>
+          <Column id="CUST_GBCD" type="STRING" size="256"/>
+          <Column id="ITEM_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>
